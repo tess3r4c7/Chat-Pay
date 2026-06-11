@@ -18,6 +18,7 @@
     "chatpay-common": "file:../../packages/common",
     "chatpay-db": "file:../../packages/db",
     "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "zod": "^4.3.6"

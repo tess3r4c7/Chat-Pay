@@ -58,15 +58,16 @@ export default function AuthPage() {
         password: form.password,
         number: form.number,
       })
-      if (res.data.message === "User already exists") {
-        setError("An account with this email or phone already exists.")
-        return
-      }
       setSuccess("Account created! Sign in to continue.")
       setTab("signin")
       setForm((f) => ({ ...f, password: "" }))
-    } catch {
-      setError("Sign up failed. Please try again.")
+    } catch (e: any) {
+      const msg = e?.response?.data?.message
+      if (msg === "User already exists") {
+        setError("An account with this email or phone already exists.")
+      } else {
+        setError(msg || "Sign up failed. Please try again.")
+      }
     } finally {
       setLoading(false)
     }
