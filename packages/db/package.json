@@ -1,0 +1,21 @@
+{
+  "name": "chatpay-db",
+  "version": "1.0.0",
+  "description": "Shared Prisma client for Chat&Pay",
+  "main": "generated/prisma/index.js",
+  "types": "generated/prisma/index.d.ts",
+  "license": "ISC",
+  "scripts": {
+    "postinstall": "prisma generate --schema=./prisma/schema.prisma",
+    "db:push": "prisma db push --schema=./prisma/schema.prisma",
+    "db:migrate": "prisma migrate dev --schema=./prisma/schema.prisma"
+  },
+  "dependencies": {
+    "prisma": "^7.5.0",
+    "@prisma/client": "^7.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "dotenv": "^17.0.0"
+  }
+}

@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                Int                @id @default(autoincrement())
+  email             String             @unique
+  password          String
+  name              String
+  number            BigInt             @unique
+  OnRampTransaction OnRampTransaction[]
+  Balance           Balance[]
+  sentTransfers     p2pTransfer[]      @relation("SentTransfers")
+  receivedTransfers p2pTransfer[]      @relation("ReceivedTransfers")
+}
+
+model Balance {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  amount Int  @default(0)
+  locked Int  @default(0)
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model OnRampTransaction {
+  id        Int          @id @default(autoincrement())
+  status    OnRampStatus
+  token     String       @unique
+  amount    Int
+  startedAt DateTime     @default(now())
+  userId    Int
+  user      User         @relation(fields: [userId], references: [id])
+}
+
+model p2pTransfer {
+  id         Int      @id @default(autoincrement())
+  amount     Int
+  timestamp  DateTime @default(now())
+  senderId   Int
+  receiverId Int
+  sender     User     @relation(name: "SentTransfers", fields: [senderId], references: [id])
+  receiver   User     @relation(name: "ReceivedTransfers", fields: [receiverId], references: [id])
+}
+
+enum OnRampStatus {
+  PENDING
+  FAILED
+  COMPLETED
+}
