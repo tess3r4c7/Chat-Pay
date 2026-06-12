@@ -11,7 +11,7 @@ chatRouter.use(express.json())
 chatRouter.use(authMiddleware)
 
 // ─── List user's conversations ───────────────────────────────
-chatRouter.get('/api/conversations', async (req: any, res) => {
+chatRouter.get('/conversations', async (req: any, res) => {
   const userId = req.userId
   try {
     const myParticipations = await prisma.conversationParticipant.findMany({
@@ -50,7 +50,7 @@ chatRouter.get('/api/conversations', async (req: any, res) => {
 })
 
 // ─── Create or return existing conversation ──────────────────
-chatRouter.post('/api/conversations', async (req: any, res: any) => {
+chatRouter.post('/conversations', async (req: any, res: any) => {
   const otherUserId = Number(req.body.otherUserId)
   const userId = Number(req.userId)
 
@@ -109,7 +109,7 @@ chatRouter.post('/api/conversations', async (req: any, res: any) => {
 })
 
 // ─── Get messages for a conversation ─────────────────────────
-chatRouter.get('/api/messages/:conversationId', async (req: any, res) => {
+chatRouter.get('/messages/:conversationId', async (req: any, res) => {
   try {
     const conversationId = Number(req.params.conversationId)
 
@@ -141,7 +141,7 @@ chatRouter.get('/api/messages/:conversationId', async (req: any, res) => {
 })
 
 // ─── Save/update user's NaCl public key ──────────────────────
-chatRouter.post('/api/users/publickey', async (req: any, res: any) => {
+chatRouter.post('/users/publickey', async (req: any, res: any) => {
   const userId = req.userId
   const { publicKey } = req.body
 
@@ -161,7 +161,7 @@ chatRouter.post('/api/users/publickey', async (req: any, res: any) => {
 })
 
 // ─── Get another user's public key ───────────────────────────
-chatRouter.get('/api/users/:userId/publickey', async (req: any, res: any) => {
+chatRouter.get('/users/:userId/publickey', async (req: any, res: any) => {
   const userId = Number(req.params.userId)
   try {
     const user = await prisma.user.findUnique({ where: { id: userId } })

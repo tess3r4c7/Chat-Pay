@@ -16,7 +16,7 @@ const activeConnections = new Map<number, any>()
 
 const app = express()
 app.use(cors())
-app.use(chatRouter)
+app.use('/api', chatRouter)
 
 // Health check (unauthenticated)
 app.get('/health', (_req, res) => {
