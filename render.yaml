@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: chat-pay-user-app
+    runtime: node
+    rootDir: backend/user-app
+    buildCommand: |
+      cd ../../packages/db && npm install && \
+      cd ../common && npm install && npm run build && \
+      cd ../../backend/user-app && npm install && npm run dev && \
+      cd ../../packages/db && npx prisma db push --schema=./prisma/schema.prisma
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        scope: run
+      - key: JWT_SECRET
+        scope: run
+
+  - type: web
+    name: chat-pay-chat-server
+    runtime: node
+    rootDir: backend/chat-server
+    buildCommand: |
+      cd ../../packages/db && npm install && \
+      cd ../../backend/chat-server && npm install && npm run dev
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        scope: run
+      - key: JWT_SECRET
+        scope: run
