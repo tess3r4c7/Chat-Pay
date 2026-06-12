@@ -6,7 +6,7 @@ services:
     buildCommand: |
       cd ../../packages/db && npm install && \
       cd ../common && npm install && npm run build && \
-      cd ../../backend/user-app && npm install && npm run dev && \
+      cd ../../backend/user-app && npm install && npm run build && \
       cd ../../packages/db && npx prisma db push --schema=./prisma/schema.prisma
     startCommand: npm start
     healthCheckPath: /health
@@ -22,7 +22,7 @@ services:
     rootDir: backend/chat-server
     buildCommand: |
       cd ../../packages/db && npm install && \
-      cd ../../backend/chat-server && npm install && npm run dev
+      cd ../../backend/chat-server && npm install && npm run build
     startCommand: npm start
     healthCheckPath: /health
     envVars:
