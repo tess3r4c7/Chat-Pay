@@ -8,15 +8,18 @@ datasource db {
 }
 
 model User {
-  id                Int                @id @default(autoincrement())
-  email             String             @unique
+  id                Int                       @id @default(autoincrement())
+  email             String                    @unique
   password          String
   name              String
-  number            BigInt             @unique
+  number            BigInt                    @unique
+  publicKey         String?
   OnRampTransaction OnRampTransaction[]
   Balance           Balance[]
-  sentTransfers     p2pTransfer[]      @relation("SentTransfers")
-  receivedTransfers p2pTransfer[]      @relation("ReceivedTransfers")
+  sentTransfers     p2pTransfer[]             @relation("SentTransfers")
+  receivedTransfers p2pTransfer[]             @relation("ReceivedTransfers")
+  conversations     ConversationParticipant[]
+  sentMessages      Message[]
 }
 
 model Balance {
@@ -47,8 +50,38 @@ model p2pTransfer {
   receiver   User     @relation(name: "ReceivedTransfers", fields: [receiverId], references: [id])
 }
 
+model Conversation {
+  id           Int                       @id @default(autoincrement())
+  createdAt    DateTime                  @default(now())
+  participants ConversationParticipant[]
+  messages     Message[]
+}
+
+model ConversationParticipant {
+  id             Int          @id @default(autoincrement())
+  conversationId Int
+  userId         Int
+  publickey      String       @default("")
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
+
+  @@unique([conversationId, userId])
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  conversationId Int
+  senderId       Int
+  cipherText     String
+  nonce          String
+  createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  sender         User         @relation(fields: [senderId], references: [id])
+}
+
 enum OnRampStatus {
   PENDING
   FAILED
   COMPLETED
 }
+

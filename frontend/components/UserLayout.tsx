@@ -8,6 +8,7 @@ import {
   Home,
   Send,
   PlusCircle,
+  MessageCircle,
   Bell,
   LogOut,
   ArrowDownLeft,
@@ -23,10 +24,14 @@ type NavItem = {
   icon: React.ComponentType<{ className?: string }>
 }
 
-const NAV_ITEMS: NavItem[] = [
+const MONEY_NAV: NavItem[] = [
   { href: "/User/dashboard/page", label: "Dashboard", icon: Home },
   { href: "/User/SendMoney/page", label: "Send Money", icon: Send },
   { href: "/User/AddMoney/page", label: "Add Money", icon: PlusCircle },
+]
+
+const SOCIAL_NAV: NavItem[] = [
+  { href: "/User/chat/page", label: "Chat", icon: MessageCircle },
 ]
 
 function getInitials(name: string) {
@@ -218,7 +223,33 @@ export function UserLayout({
                 MONEY
               </div>
               <div className="space-y-0.5">
-                {NAV_ITEMS.map((item) => {
+                {MONEY_NAV.map((item) => {
+                  const Icon = item.icon
+                  const active = isActive(item.href)
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
+                        active
+                          ? "bg-white text-gray-900 font-semibold"
+                          : "text-gray-300 hover:bg-white/5"
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span className="flex-1">{item.label}</span>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+            <div>
+              <div className="px-3 mb-2 text-[10px] font-semibold tracking-widest text-gray-500">
+                SOCIAL
+              </div>
+              <div className="space-y-0.5">
+                {SOCIAL_NAV.map((item) => {
                   const Icon = item.icon
                   const active = isActive(item.href)
                   return (
