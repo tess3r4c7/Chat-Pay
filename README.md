@@ -24,7 +24,7 @@ chatpay/
 ### Frontend
 | Technology | Purpose |
 |---|---|
-| Next.js 15 (Pages Router) | Framework |
+| Next.js 16 (Pages Router) | Framework |
 | React 19 | UI |
 | TypeScript | Type safety |
 | Tailwind CSS v4 | Styling |
