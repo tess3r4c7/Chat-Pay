@@ -10,11 +10,6 @@ services:
       cd ../../packages/db && npx prisma db push --schema=./prisma/schema.prisma
     startCommand: npm start
     healthCheckPath: /health
-    envVars:
-      - key: DATABASE_URL
-        scope: run
-      - key: JWT_SECRET
-        scope: run
 
   - type: web
     name: chat-pay-chat-server
@@ -25,8 +20,3 @@ services:
       cd ../../backend/chat-server && npm install && npm run build
     startCommand: npm start
     healthCheckPath: /health
-    envVars:
-      - key: DATABASE_URL
-        scope: run
-      - key: JWT_SECRET
-        scope: run
